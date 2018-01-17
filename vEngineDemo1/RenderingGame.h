@@ -17,6 +17,8 @@ namespace vEngine
 	class Keyboard;
 	class Mouse;
 	class FPSCamera;
+	class PerspectiveCamera;
+	class OrthographicCamera;
 	class Grid;
 }
 
@@ -39,6 +41,8 @@ namespace Rendering
 		Keyboard* mKeyboard;
 		Mouse* mMouse;
 		FPSCamera* mCamera;
+		//PerspectiveCamera* mCamera;
+		//OrthographicCamera* mCamera;
 		FpsCounter* mFpsComponent;
 		Grid* mGrid;
     };

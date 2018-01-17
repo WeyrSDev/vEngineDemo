@@ -9,6 +9,8 @@
 #include "vUtility.h"
 #include "vColorHelper.h"
 #include "vFPSCamera.h"
+#include "vPerpspectiveCamera.h"
+#include "vOrthographicCamera.h"
 #include "vGrid.h"
 
 namespace Rendering {
@@ -44,6 +46,8 @@ namespace Rendering {
 		mServices.AddService(Mouse::TypeIdClass(), mMouse);
 
 		mCamera = new FPSCamera(*this);
+		//mCamera = new PerspectiveCamera(*this);
+		//mCamera = new OrthographicCamera(*this);
 		mComponents.push_back(mCamera);
 		mServices.AddService(Camera::TypeIdClass(), mCamera);
 
