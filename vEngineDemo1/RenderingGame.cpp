@@ -14,6 +14,7 @@
 #include "vRenderStateHelper.h"
 #include "vGrid.h"
 #include "Cube.h"
+#include "TriangleDemo.h"
 
 namespace Rendering {
 	const XMVECTORF32 RenderingGame::BackgroundColor = ColorHelper::CornflowerBlue;
@@ -22,7 +23,7 @@ namespace Rendering {
 		: Engine(instance, windowClass, windowTitle, showCommand),
 		mFpsComponent(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr),
-		mGrid(nullptr), mRenderStateHelper(nullptr), mCubeDemo(nullptr)
+		mGrid(nullptr), mRenderStateHelper(nullptr), mDemo(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -59,8 +60,9 @@ namespace Rendering {
 		mGrid = new Grid(*this, *mCamera);
 		mComponents.push_back(mGrid);
 
-		mCubeDemo = new CubeDemo(*this, *mCamera);
-		mComponents.push_back(mCubeDemo);
+		//mDemo = new CubeDemo(*this, *mCamera);
+		mDemo = new TriangleDemo(*this, *mCamera);
+		mComponents.push_back(mDemo);
 
 		mRenderStateHelper = new RenderStateHelper(*this);
 		Engine::Initialize();
@@ -70,7 +72,7 @@ namespace Rendering {
 
 	void RenderingGame::Shutdown()
 	{
-		DeleteObject(mCubeDemo);
+		DeleteObject(mDemo);
 		DeleteObject(mRenderStateHelper);
 		DeleteObject(mGrid);
 		DeleteObject(mKeyboard);

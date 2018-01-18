@@ -25,6 +25,7 @@ namespace vEngine
 
 namespace Rendering {
 	class CubeDemo;
+	class TriangleDemo;
     class RenderingGame : public Engine {
     public:
 		RenderingGame(HINSTANCE instance, const std::wstring& windowClass, const std::wstring& windowTitle, int showCommand);
@@ -46,6 +47,7 @@ namespace Rendering {
 		FpsCounter* mFpsComponent;
 		Grid* mGrid;
 		RenderStateHelper* mRenderStateHelper;
-		CubeDemo* mCubeDemo;
+		//CubeDemo* mDemo;
+		TriangleDemo* mDemo;
     };
 }
