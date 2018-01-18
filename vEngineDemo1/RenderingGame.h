@@ -20,12 +20,12 @@ namespace vEngine
 	class PerspectiveCamera;
 	class OrthographicCamera;
 	class Grid;
+	class RenderStateHelper;
 }
 
-namespace Rendering
-{
-    class RenderingGame : public Engine
-    {
+namespace Rendering {
+	class CubeDemo;
+    class RenderingGame : public Engine {
     public:
 		RenderingGame(HINSTANCE instance, const std::wstring& windowClass, const std::wstring& windowTitle, int showCommand);
 		~RenderingGame();
@@ -45,5 +45,7 @@ namespace Rendering
 		//OrthographicCamera* mCamera;
 		FpsCounter* mFpsComponent;
 		Grid* mGrid;
+		RenderStateHelper* mRenderStateHelper;
+		CubeDemo* mCubeDemo;
     };
 }

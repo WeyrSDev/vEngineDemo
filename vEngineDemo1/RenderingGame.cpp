@@ -11,7 +11,9 @@
 #include "vFPSCamera.h"
 #include "vPerpspectiveCamera.h"
 #include "vOrthographicCamera.h"
+#include "vRenderStateHelper.h"
 #include "vGrid.h"
+#include "Cube.h"
 
 namespace Rendering {
 	const XMVECTORF32 RenderingGame::BackgroundColor = ColorHelper::CornflowerBlue;
@@ -20,7 +22,7 @@ namespace Rendering {
 		: Engine(instance, windowClass, windowTitle, showCommand),
 		mFpsComponent(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr),
-		mGrid(nullptr)
+		mGrid(nullptr), mRenderStateHelper(nullptr), mCubeDemo(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -57,6 +59,10 @@ namespace Rendering {
 		mGrid = new Grid(*this, *mCamera);
 		mComponents.push_back(mGrid);
 
+		mCubeDemo = new CubeDemo(*this, *mCamera);
+		mComponents.push_back(mCubeDemo);
+
+		mRenderStateHelper = new RenderStateHelper(*this);
 		Engine::Initialize();
 
 		mCamera->SetPosition(0.0f, 0.0f, 10.0f);
@@ -64,6 +70,8 @@ namespace Rendering {
 
 	void RenderingGame::Shutdown()
 	{
+		DeleteObject(mCubeDemo);
+		DeleteObject(mRenderStateHelper);
 		DeleteObject(mGrid);
 		DeleteObject(mKeyboard);
 		DeleteObject(mMouse);
@@ -91,12 +99,12 @@ namespace Rendering {
 		mDirect3DDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 		Engine::Draw(gameTime);
-
+		mRenderStateHelper->SaveAll();
+		mRenderStateHelper->RestoreAll();
 		HRESULT hr = mSwapChain->Present(0, 0);
 		if (FAILED(hr))
 		{
 			throw Exception("IDXGISwapChain::Present() failed.", hr);
 		}
 	}
-
 }
