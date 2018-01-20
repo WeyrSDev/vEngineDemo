@@ -12,9 +12,12 @@
 #include "vPerpspectiveCamera.h"
 #include "vOrthographicCamera.h"
 #include "vRenderStateHelper.h"
+#include "vSkybox.h"
 #include "vGrid.h"
 #include "Cube.h"
 #include "TriangleDemo.h"
+#include "ModelDemo.h"
+#include "TexturedModel.h"
 
 namespace Rendering {
 	const XMVECTORF32 RenderingGame::BackgroundColor = ColorHelper::CornflowerBlue;
@@ -22,8 +25,9 @@ namespace Rendering {
 	RenderingGame::RenderingGame(HINSTANCE instance, const std::wstring& windowClass, const std::wstring& windowTitle, int showCommand)
 		: Engine(instance, windowClass, windowTitle, showCommand),
 		mFpsComponent(nullptr),
-		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr),
-		mGrid(nullptr), mRenderStateHelper(nullptr), mDemo(nullptr)
+		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mRenderStateHelper(nullptr),
+		mModelDemo(nullptr), mTexturedModel(nullptr),
+		mSkybox(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -49,32 +53,26 @@ namespace Rendering {
 		mServices.AddService(Mouse::TypeIdClass(), mMouse);
 
 		mCamera = new FPSCamera(*this);
-		//mCamera = new PerspectiveCamera(*this);
-		//mCamera = new OrthographicCamera(*this);
 		mComponents.push_back(mCamera);
 		mServices.AddService(Camera::TypeIdClass(), mCamera);
 
 		mFpsComponent = new FpsCounter(*this);
-		mComponents.push_back(mFpsComponent);
+		mFpsComponent->Initialize();
 
-		mGrid = new Grid(*this, *mCamera);
-		mComponents.push_back(mGrid);
-
-		//mDemo = new CubeDemo(*this, *mCamera);
-		mDemo = new TriangleDemo(*this, *mCamera);
-		mComponents.push_back(mDemo);
+		mTexturedModel = new TexturedModel(*this, *mCamera);
+		mComponents.push_back(mTexturedModel);
 
 		mRenderStateHelper = new RenderStateHelper(*this);
+
 		Engine::Initialize();
 
-		mCamera->SetPosition(0.0f, 0.0f, 10.0f);
+		mCamera->SetPosition(0.0f, 0.0f, 25.0f);
 	}
 
 	void RenderingGame::Shutdown()
 	{
-		DeleteObject(mDemo);
+		DeleteObject(mTexturedModel);
 		DeleteObject(mRenderStateHelper);
-		DeleteObject(mGrid);
 		DeleteObject(mKeyboard);
 		DeleteObject(mMouse);
 		DeleteObject(mFpsComponent);
@@ -87,6 +85,8 @@ namespace Rendering {
 
 	void RenderingGame::Update(const Time &gameTime)
 	{
+		mFpsComponent->Update(gameTime);
+
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_ESCAPE))
 		{
 			Exit();
@@ -101,12 +101,16 @@ namespace Rendering {
 		mDirect3DDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 		Engine::Draw(gameTime);
+
 		mRenderStateHelper->SaveAll();
+		mFpsComponent->Draw(gameTime);
 		mRenderStateHelper->RestoreAll();
+
 		HRESULT hr = mSwapChain->Present(0, 0);
 		if (FAILED(hr))
 		{
 			throw Exception("IDXGISwapChain::Present() failed.", hr);
 		}
 	}
+
 }

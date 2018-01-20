@@ -21,11 +21,15 @@ namespace vEngine
 	class OrthographicCamera;
 	class Grid;
 	class RenderStateHelper;
+	class Skybox;
+	
 }
 
 namespace Rendering {
 	class CubeDemo;
 	class TriangleDemo;
+	class ModelDemo;
+	class TexturedModel;
     class RenderingGame : public Engine {
     public:
 		RenderingGame(HINSTANCE instance, const std::wstring& windowClass, const std::wstring& windowTitle, int showCommand);
@@ -48,6 +52,11 @@ namespace Rendering {
 		Grid* mGrid;
 		RenderStateHelper* mRenderStateHelper;
 		//CubeDemo* mDemo;
-		TriangleDemo* mDemo;
+		//TriangleDemo* mDemo;
+		Skybox* mSkybox;
+
+		ModelDemo* mModelDemo;
+		TexturedModel* mTexturedModel;
+
     };
 }
