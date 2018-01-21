@@ -1,33 +1,25 @@
 #include "RenderingGame.h"
-#include <sstream>
-#include <SpriteBatch.h>
-#include <SpriteFont.h>
 #include "vException.h"
 #include "vKeyboard.h"
 #include "vMouse.h"
 #include "vFpsCounter.h"
-#include "vUtility.h"
 #include "vColorHelper.h"
 #include "vFPSCamera.h"
-#include "vPerpspectiveCamera.h"
-#include "vOrthographicCamera.h"
 #include "vRenderStateHelper.h"
-#include "vSkybox.h"
 #include "vGrid.h"
-#include "Cube.h"
-#include "TriangleDemo.h"
-#include "ModelDemo.h"
-#include "TexturedModel.h"
+#include "MaterialDemo.h"
+#include "vSkybox.h"
 
-namespace Rendering {
+
+namespace Rendering
+{
 	const XMVECTORF32 RenderingGame::BackgroundColor = ColorHelper::CornflowerBlue;
 
 	RenderingGame::RenderingGame(HINSTANCE instance, const std::wstring& windowClass, const std::wstring& windowTitle, int showCommand)
 		: Engine(instance, windowClass, windowTitle, showCommand),
 		mFpsComponent(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mRenderStateHelper(nullptr),
-		mModelDemo(nullptr), mTexturedModel(nullptr),
-		mSkybox(nullptr)
+		mMaterialDemo(nullptr), mSkybox(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -59,8 +51,15 @@ namespace Rendering {
 		mFpsComponent = new FpsCounter(*this);
 		mFpsComponent->Initialize();
 
-		mTexturedModel = new TexturedModel(*this, *mCamera);
-		mComponents.push_back(mTexturedModel);
+		mGrid = new Grid(*this, *mCamera);
+		mComponents.push_back(mGrid);
+
+
+		mMaterialDemo = new MaterialDemo(*this, *mCamera);
+		mComponents.push_back(mMaterialDemo);
+
+		mSkybox = new Skybox(*this, *mCamera, L"Content\\Textures\\Maskonaive2_1024.dds", 100.0f);
+		mComponents.push_back(mSkybox);
 
 		mRenderStateHelper = new RenderStateHelper(*this);
 
@@ -71,7 +70,8 @@ namespace Rendering {
 
 	void RenderingGame::Shutdown()
 	{
-		DeleteObject(mTexturedModel);
+		DeleteObject(mSkybox)
+		DeleteObject(mMaterialDemo);
 		DeleteObject(mRenderStateHelper);
 		DeleteObject(mKeyboard);
 		DeleteObject(mMouse);
@@ -112,5 +112,4 @@ namespace Rendering {
 			throw Exception("IDXGISwapChain::Present() failed.", hr);
 		}
 	}
-
 }

@@ -17,8 +17,6 @@ namespace vEngine
 	class Keyboard;
 	class Mouse;
 	class FPSCamera;
-	class PerspectiveCamera;
-	class OrthographicCamera;
 	class Grid;
 	class RenderStateHelper;
 	class Skybox;
@@ -26,10 +24,7 @@ namespace vEngine
 }
 
 namespace Rendering {
-	class CubeDemo;
-	class TriangleDemo;
-	class ModelDemo;
-	class TexturedModel;
+	class MaterialDemo;
     class RenderingGame : public Engine {
     public:
 		RenderingGame(HINSTANCE instance, const std::wstring& windowClass, const std::wstring& windowTitle, int showCommand);
@@ -45,18 +40,11 @@ namespace Rendering {
 		LPDIRECTINPUT8 mDirectInput;
 		Keyboard* mKeyboard;
 		Mouse* mMouse;
-		FPSCamera* mCamera;
-		//PerspectiveCamera* mCamera;
-		//OrthographicCamera* mCamera;
+		FPSCamera * mCamera;
 		FpsCounter* mFpsComponent;
 		Grid* mGrid;
 		RenderStateHelper* mRenderStateHelper;
-		//CubeDemo* mDemo;
-		//TriangleDemo* mDemo;
 		Skybox* mSkybox;
-
-		ModelDemo* mModelDemo;
-		TexturedModel* mTexturedModel;
-
+		MaterialDemo* mMaterialDemo;
     };
 }
