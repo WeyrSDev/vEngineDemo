@@ -66,6 +66,13 @@
 IF EXIST "$(SolutionDir)..\content" xcopy /E /Y "$(SolutionDir)..\content" "$(OutDir)Content\"
 IF EXIST "$(ProjectDir)content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Content\"</Command>
     </PreBuildEvent>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <AdditionalIncludeDirectories>C:\Users\PC_User\Desktop\vEngine 1b\Demos\vEngineDemo1\vEngineDemo1\content\Effects\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -92,11 +99,20 @@ IF EXIST "$(ProjectDir)content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
 IF EXIST "$(SolutionDir)..\content" xcopy /E /Y "$(SolutionDir)..\content" "$(OutDir)Content\"
 IF EXIST "$(ProjectDir)content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Content\"</Command>
     </PreBuildEvent>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <AdditionalIncludeDirectories>C:\Users\PC_User\Desktop\vEngine 1b\Demos\vEngineDemo1\vEngineDemo1\content\Effects\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="MaterialDemo.cpp" />
     <ClCompile Include="ModelDemo.cpp" />
+    <ClCompile Include="PointLightDemo.cpp" />
+    <ClCompile Include="PointLightMaterial.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="RenderingGame.cpp" />
     <ClCompile Include="TexturedModel.cpp" />
@@ -106,6 +122,8 @@ IF EXIST "$(ProjectDir)content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="Cube.h" />
     <ClInclude Include="MaterialDemo.h" />
     <ClInclude Include="ModelDemo.h" />
+    <ClInclude Include="PointLightDemo.h" />
+    <ClInclude Include="PointLightMaterial.h" />
     <ClInclude Include="RenderingGame.h" />
     <ClInclude Include="TexturedModel.h" />
     <ClInclude Include="TriangleDemo.h" />

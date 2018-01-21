@@ -6,9 +6,12 @@
 #include "vColorHelper.h"
 #include "vFPSCamera.h"
 #include "vRenderStateHelper.h"
+#include "vRasterizerStates.h"
+#include "vSamplerStates.h"
 #include "vGrid.h"
 #include "MaterialDemo.h"
 #include "vSkybox.h"
+#include "PointLightDemo.h"
 
 
 namespace Rendering
@@ -18,8 +21,8 @@ namespace Rendering
 	RenderingGame::RenderingGame(HINSTANCE instance, const std::wstring& windowClass, const std::wstring& windowTitle, int showCommand)
 		: Engine(instance, windowClass, windowTitle, showCommand),
 		mFpsComponent(nullptr),
-		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mRenderStateHelper(nullptr),
-		mMaterialDemo(nullptr), mSkybox(nullptr)
+		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mRenderStateHelper(nullptr), mGrid(nullptr),
+		mPointLightDemo(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -54,12 +57,12 @@ namespace Rendering
 		mGrid = new Grid(*this, *mCamera);
 		mComponents.push_back(mGrid);
 
+		RasterizerStates::Initialize(mDirect3DDevice);
+		SamplerStates::BorderColor = ColorHelper::Black;
+		SamplerStates::Initialize(mDirect3DDevice);
 
-		mMaterialDemo = new MaterialDemo(*this, *mCamera);
-		mComponents.push_back(mMaterialDemo);
-
-		mSkybox = new Skybox(*this, *mCamera, L"Content\\Textures\\Maskonaive2_1024.dds", 100.0f);
-		mComponents.push_back(mSkybox);
+		mPointLightDemo = new PointLightDemo(*this, *mCamera);
+		mComponents.push_back(mPointLightDemo);
 
 		mRenderStateHelper = new RenderStateHelper(*this);
 
@@ -70,8 +73,8 @@ namespace Rendering
 
 	void RenderingGame::Shutdown()
 	{
-		DeleteObject(mSkybox)
-		DeleteObject(mMaterialDemo);
+		DeleteObject(mPointLightDemo);
+		DeleteObject(mGrid)
 		DeleteObject(mRenderStateHelper);
 		DeleteObject(mKeyboard);
 		DeleteObject(mMouse);
@@ -79,6 +82,8 @@ namespace Rendering
 		DeleteObject(mCamera);
 
 		ReleaseObject(mDirectInput);
+		RasterizerStates::Release();
+		SamplerStates::Release();
 
 		Engine::Shutdown();
 	}
