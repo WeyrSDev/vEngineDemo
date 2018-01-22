@@ -13,6 +13,7 @@
 #include "vSkybox.h"
 #include "PointLightDemo.h"
 
+#include "DiffuseLightingDemo.h"
 
 namespace Rendering
 {
@@ -22,7 +23,7 @@ namespace Rendering
 		: Engine(instance, windowClass, windowTitle, showCommand),
 		mFpsComponent(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mRenderStateHelper(nullptr), mGrid(nullptr),
-		mPointLightDemo(nullptr)
+		mDiffuseLightingDemo(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -61,8 +62,8 @@ namespace Rendering
 		SamplerStates::BorderColor = ColorHelper::Black;
 		SamplerStates::Initialize(mDirect3DDevice);
 
-		mPointLightDemo = new PointLightDemo(*this, *mCamera);
-		mComponents.push_back(mPointLightDemo);
+		mDiffuseLightingDemo = new DiffuseLightingDemo(*this, *mCamera);
+		mComponents.push_back(mDiffuseLightingDemo);
 
 		mRenderStateHelper = new RenderStateHelper(*this);
 
@@ -73,7 +74,7 @@ namespace Rendering
 
 	void RenderingGame::Shutdown()
 	{
-		DeleteObject(mPointLightDemo);
+		DeleteObject(mDiffuseLightingDemo);
 		DeleteObject(mGrid)
 		DeleteObject(mRenderStateHelper);
 		DeleteObject(mKeyboard);
@@ -96,7 +97,6 @@ namespace Rendering
 		{
 			Exit();
 		}
-
 		Engine::Update(gameTime);
 	}
 

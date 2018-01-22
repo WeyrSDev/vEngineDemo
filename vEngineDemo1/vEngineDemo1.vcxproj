@@ -108,7 +108,11 @@ IF EXIST "$(ProjectDir)content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AmbientLightingDemo.cpp" />
+    <ClCompile Include="AmbientLightingMaterial.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="DiffuseLightingDemo.cpp" />
+    <ClCompile Include="DiffuseLightingMaterial.cpp" />
     <ClCompile Include="MaterialDemo.cpp" />
     <ClCompile Include="ModelDemo.cpp" />
     <ClCompile Include="PointLightDemo.cpp" />
@@ -119,7 +123,11 @@ IF EXIST "$(ProjectDir)content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="TriangleDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AmbientLightingDemo.h" />
+    <ClInclude Include="AmbientLightingMaterial.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="DiffuseLightingDemo.h" />
+    <ClInclude Include="DiffuseLightingMaterial.h" />
     <ClInclude Include="MaterialDemo.h" />
     <ClInclude Include="ModelDemo.h" />
     <ClInclude Include="PointLightDemo.h" />
